@@ -6,15 +6,19 @@ class Grid {
         const len = board.length;
         let count = 0;
 
+        // Looping through offsets of cells that is being checkec //
+
         for (let x = -1; x <= 1; x++) {
             for (let y = -1; y <= 1; y++) {
+                // If there is no offset, then don't check the cell //
                 if (!x && !y) {
                     continue;
                 }
                 const xi = x + i;
                 const yj = y + j;
-
+                // Checks if the cell plus the offset is in bounds with the grid //
                 if (xi >= 0 && xi < len && yj >=0 && yj < len) {
+                    // If the cell at xi, yj returnts a truthy value it is alive so we increment the count//
                     if (board[xi][yj]) {
                         count += 1;
                     }
@@ -23,12 +27,16 @@ class Grid {
         }
         return count;
     }
+
     step(board) {
+        // New board is made to house the next iteration of cell progression //
         const newBoard = []
         const len = board.length
 
+        // Creates 2D grid by filling the new board with lists //
         for (let i = 0; i < len; i++) {
             newBoard.push([])
+            // Loop through each cell in the grid and checks neighbors to decide if cell is alive or dead //
             for (let j = 0; j < len; j++) {
                 const neighbors = this.getNeighbors(board, i, j);
                 if (neighbors === 3 && !board[i][j]) {
@@ -43,24 +51,28 @@ class Grid {
         this.grid = newBoard;
     }
 
+    //List of Board configurations including Blank and Random //
+
     newBlankGrid() {
         this.grid = [];
-        for (let i = 0; i < 25; i++) {
+        for (let i = 0; i < 30; i++) {
             this.grid[i] = [];
-            for (let j = 0; j < 25; j++) {
+            for (let j = 0; j < 30; j++) {
                 this.grid[i].push(0);
             }
         }
     }
+    
     randomGrid() {
         this.grid = [];
-        for (let i = 0; i < 25; i++) {
+        for (let i = 0; i < 30; i++) {
             this.grid[i] = [];
-            for (let j = 0; j < 25; j++) {
+            for (let j = 0; j < 30; j++) {
                 this.grid[i].push(Math.round(Math.random()))
             }
         }
     }
+
     initRPentomino() {
         this.newBlankGrid();
         this.grid[19][11]=1;
@@ -69,6 +81,7 @@ class Grid {
         this.grid[18][13]=1;
         this.grid[17][12]=1;
     }
+
     initQueenBee() {
         this.newBlankGrid();
         this.grid[9][10]=1;
@@ -93,6 +106,7 @@ class Grid {
         this.grid[1][2]=1;
         this.grid[0][2]=1;
     }
+
     initSmallExploder() {
         this.newBlankGrid();
         this.grid[11][10]=1;
@@ -103,6 +117,7 @@ class Grid {
         this.grid[12][12]=1;
         this.grid[11][13]=1;
     }
+
     initExploder() {
         this.newBlankGrid();
         this.grid[10][9]=1;
@@ -118,12 +133,14 @@ class Grid {
         this.grid[14][12]=1;
         this.grid[14][13]=1;
     }
+
     init10CellRow() {
         this.newBlankGrid();
         for (let i=8; i<18; i++) {
             this.grid[i][12]=1;
         }
     }
+    
     initLightWeightSpaceShip() {
         this.newBlankGrid();
         this.grid[1][15]=1;
