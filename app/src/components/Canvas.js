@@ -2,22 +2,38 @@ import React, { Component } from "react";
 import RangeSlider from "react-bootstrap-range-slider";
 import Grid from "./Grid";
 
+const small = 300;
+const medium = 375;
+const large = 450;
+
 class Canvas extends Component {
     constructor() {
         super();
         this.state = {
             generation: 0,
-            sliderValue: 50
+            sliderValue: 50,
+            size: large
         };
     }
 
     componentDidMount() {
         this.draw();
         this.grid = new Grid();
-        this.grid.newBlankGrid();
+        this.grid.newBlankGrid(this.state.size);
         this.start = null;
         this.myReq = null;
         this.isClickable = true;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.size !== this.state.size) {
+            this.draw();
+            this.grid = new Grid();
+            this.grid.newBlankGrid(this.state.size);
+            this.start = null;
+            this.myReq = null;
+            this.isClickable = true;
+        }
     }
 
     draw() {
@@ -26,8 +42,8 @@ class Canvas extends Component {
         context.strokeStyle = "#2b2d2f";
         // Creates grid by drawing lines every 15 pixels //
             // Take the number of cells created and multiply 15 to get the correct size the for the loop //
-        for (let i = 0; i <= 450; i += 15) {
-            for (let j = 0; j <= 450; j += 15) {
+        for (let i = 0; i <= this.state.size; i += 15) {
+            for (let j = 0; j <= this.state.size; j += 15) {
                 context.moveTo(i, 0);
                 context.lineTo(i, j);
                 context.moveTo(0, j);
@@ -130,7 +146,7 @@ class Canvas extends Component {
             generation: 0
         })
         this.isClickable = true;
-        this.grid.newBlankGrid();
+        this.grid.newBlankGrid(this.state.size);
         this.fillCells();
         document.querySelector("select").value = "none"
     }
@@ -140,31 +156,31 @@ class Canvas extends Component {
         if (!this.start && !this.myReq) {
             switch (e.target.value) {
                 case "random":
-                    this.grid.randomGrid();
+                    this.grid.randomGrid(this.state.size);
                     break;
                 case "glider":
-                    this.grid.initGlider();
+                    this.grid.initGlider(this.state.size);
                     break;
                 case "lightWeightSpaceShip":
-                    this.grid.initLightWeightSpaceShip();
+                    this.grid.initLightWeightSpaceShip(this.state.size);
                     break;
                 case "10CellRow":
-                    this.grid.init10CellRow();
+                    this.grid.init10CellRow(this.state.size);
                     break;
                 case "smallExploder":
-                    this.grid.initSmallExploder();
+                    this.grid.initSmallExploder(this.state.size);
                     break;
                 case "exploder":
-                    this.grid.initExploder();
+                    this.grid.initExploder(this.state.size);
                     break;
                 case "rPentomino":
-                    this.grid.initRPentomino();
+                    this.grid.initRPentomino(this.state.size);
                     break;
                 case "queenBee":
-                    this.grid.initQueenBee();
+                    this.grid.initQueenBee(this.state.size);
                     break;
                 default:
-                    this.grid.newBlankGrid();
+                    this.grid.newBlankGrid(this.state.size);
             }
             this.setState({
                 generation: 0
@@ -173,13 +189,28 @@ class Canvas extends Component {
         }
     }
 
+    sizeSelector = e => {
+        if(!this.start && !this.myReq) {
+            switch (e.target.value) {
+                case "small":
+                    this.setState({...this.state, size: small});
+                    break;
+                case "medium":
+                    this.setState({...this.state, size: medium});
+                    break;
+                default:
+                    this.setState({...this.state, size: large});
+            }
+        }
+    }
+
     render() {
         return (
             <div>
                 <canvas
                     ref="canvas"
-                    width={450}
-                    height={450}
+                    width={this.state.size}
+                    height={this.state.size}
                     onClick={e => this.getPosition(e)}
                 />
                 <p className="generationP">
@@ -218,18 +249,24 @@ class Canvas extends Component {
                         Clear
                     </button>
                 </div>
-
-                <select onChange={this.selectHandler} defaultValue="none" className="select">
-                    <option value="none">None</option>
-                    <option value="random">Random</option>
-                    <option value="glider">Glider</option>
-                    <option value="lightWeightSpaceShip">Lightweight Spaceship</option>
-                    <option value="10CellRow">10 Cell Row</option>
-                    <option value="smallExploder">Small Exploder</option>
-                    <option value="exploder">Exploder</option>
-                    <option value="rPentomino">R-pentomino</option>
-                    <option value="queenBee">Queen Bee</option>
-                </select>
+                <div className="dropdown">
+                    <select onChange={this.selectHandler} defaultValue="none" className="select">
+                        <option value="none">None</option>
+                        <option value="random">Random</option>
+                        <option value="glider">Glider</option>
+                        <option value="lightWeightSpaceShip">Lightweight Spaceship</option>
+                        <option value="10CellRow">10 Cell Row</option>
+                        <option value="smallExploder">Small Exploder</option>
+                        <option value="exploder">Exploder</option>
+                        <option value="rPentomino">R-pentomino</option>
+                        <option value="queenBee">Queen Bee</option>
+                    </select>
+                    <select onChange={this.sizeSelector} defaultValue="large" className="size">
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                    </select>
+                </div>
             </div>
         );
     }

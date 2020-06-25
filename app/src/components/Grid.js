@@ -53,28 +53,28 @@ class Grid {
 
     //List of Board configurations including Blank and Random //
 
-    newBlankGrid() {
+    newBlankGrid(size) {
         this.grid = [];
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < (size / 15); i++) {
             this.grid[i] = [];
-            for (let j = 0; j < 30; j++) {
+            for (let j = 0; j < (size / 15); j++) {
                 this.grid[i].push(0);
             }
         }
     }
     
-    randomGrid() {
+    randomGrid(size) {
         this.grid = [];
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < (size / 15); i++) {
             this.grid[i] = [];
-            for (let j = 0; j < 30; j++) {
+            for (let j = 0; j < (size / 15); j++) {
                 this.grid[i].push(Math.round(Math.random()))
             }
         }
     }
 
-    initRPentomino() {
-        this.newBlankGrid();
+    initRPentomino(size) {
+        this.newBlankGrid(size);
         this.grid[19][11]=1;
         this.grid[18][11]=1;
         this.grid[18][12]=1;
@@ -82,8 +82,8 @@ class Grid {
         this.grid[17][12]=1;
     }
 
-    initQueenBee() {
-        this.newBlankGrid();
+    initQueenBee(size) {
+        this.newBlankGrid(size);
         this.grid[9][10]=1;
         this.grid[9][11]=1;
         this.grid[9][15]=1;
@@ -98,8 +98,8 @@ class Grid {
         this.grid[11][15]=1;
     }
 
-    initGlider() {
-        this.newBlankGrid();
+    initGlider(size) {
+        this.newBlankGrid(size);
         this.grid[1][0]=1;
         this.grid[2][1]=1;
         this.grid[2][2]=1;
@@ -107,8 +107,8 @@ class Grid {
         this.grid[0][2]=1;
     }
 
-    initSmallExploder() {
-        this.newBlankGrid();
+    initSmallExploder(size) {
+        this.newBlankGrid(size);
         this.grid[11][10]=1;
         this.grid[11][11]=1;
         this.grid[10][11]=1;
@@ -118,8 +118,8 @@ class Grid {
         this.grid[11][13]=1;
     }
 
-    initExploder() {
-        this.newBlankGrid();
+    initExploder(size) {
+        this.newBlankGrid(size);
         this.grid[10][9]=1;
         this.grid[10][10]=1;
         this.grid[10][11]=1;
@@ -134,15 +134,15 @@ class Grid {
         this.grid[14][13]=1;
     }
 
-    init10CellRow() {
-        this.newBlankGrid();
+    init10CellRow(size) {
+        this.newBlankGrid(size);
         for (let i=8; i<18; i++) {
             this.grid[i][12]=1;
         }
     }
     
-    initLightWeightSpaceShip() {
-        this.newBlankGrid();
+    initLightWeightSpaceShip(size) {
+        this.newBlankGrid(size);
         this.grid[1][15]=1;
         for (let i=2; i<6;i++) {
             this.grid[i][14]=1;

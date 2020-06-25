@@ -103,11 +103,27 @@ button {
   border-radius: 5px;
 }
 
+.dropdown {
+  width: 100%;
+  display: flex;
+  margin: 5vh, auto;
+  justify-content: center;
+}
+
 .select {
   font-size: 1rem;
   width: 35%;
   height: 4vh;
   padding-left: 5px;
-  margin-top: 1vh;
+  margin-right: 5%;
+  color: #2b2d2f;
+}
+
+.size {
+  font-size: 1rem;
+  width: 20%;
+  height: 4vh;
+  padding-left: 5px;
+  margin-left: 5%;
   color: #2b2d2f;
 }
